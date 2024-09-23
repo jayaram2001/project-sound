@@ -1,0 +1,15 @@
+<div class="form-container">
+    <div class="title" style="font-size:32px;margin: 0 0 38px 0;font-weight: 600;" >Audio Cast</div>
+    <div class="input-container">
+        <input class="input-feild" formControlName="email" type="text" placeholder="e-mail"> 
+        <input class="input-feild" formControlName="username" type="text" placeholder="User Name"> 
+        <input class="input-feild" formControlName="password" type="text" placeholder="Password">
+        <input class="input-feild" formControlName="confirmpassword" type="text" placeholder="confim password">
+        <input *ngIf="isVerified"  class="input-feild" formControlName="otp" type="text" placeholder="otp"> 
+    </div>
+
+    <div class="button-container">
+        <div *ngIf="!isLoading" >login</div>
+        <div *ngIf="isLoading" class="loader"></div>
+    </div>
+</div> 
