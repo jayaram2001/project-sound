@@ -1,0 +1,25 @@
+.main-container {
+    padding: 60px;
+}
+
+.shows-image-wrapper {
+    overflow-x: scroll;
+}
+
+.shows {
+    width: max-content;
+}
+
+
+.shows-image-container {
+    padding: 10px;
+    background-color: #F3F5F6;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.image {
+    object-fit: cover;
+    border-radius: 16px;
+    object-position: center center;
+}
