@@ -7,7 +7,6 @@
         <input class="input-feild" formControlName="confirmpassword" type="text" placeholder="confim password">
         <input *ngIf="isVerified"  class="input-feild" formControlName="otp" type="text" placeholder="otp"> 
     </div>
-
     <div class="button-container">
         <div *ngIf="!isLoading" >login</div>
         <div *ngIf="isLoading" class="loader"></div>
