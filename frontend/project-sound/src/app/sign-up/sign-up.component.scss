@@ -28,3 +28,31 @@
   .input-container{
     transition: all 0.2s ease-in;
   }
+
+.material-symbols-outlined {
+  position: absolute;
+  right: 10px; /* Adjust the right position as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px; /* Adjust the font size as needed */
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between each input group */
+  }
+  
+  .input-group {
+    margin: 0 0 20px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.material-symbols-rounded{
+    position: absolute;
+    right: 20px;
+    color: #888888;
+}

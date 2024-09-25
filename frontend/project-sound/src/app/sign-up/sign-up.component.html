@@ -1,0 +1,39 @@
+<div class="form-container">
+    <div class="title" style="font-size:32px;margin: 0 0 38px 0;font-weight: 600;" >Audio Cast</div>
+    <div class="input-container">
+        <!-- Email Input with Icon -->
+        <div class="input-group">
+          <input class="input-feild" formControlName="email" type="text" placeholder="e-mail"> 
+          <span class="material-symbols-rounded" style="font-size: 22px;" >email</span>
+        </div>
+        
+        <!-- Username Input with Icon -->
+        <div class="input-group">
+          <input class="input-feild" formControlName="username" type="text" placeholder="User Name"> 
+          <span class="material-symbols-rounded" style="font-size: 22px;" >person</span>
+        </div>
+        
+        <!-- Password Input with Icon -->
+        <div class="input-group">
+          <input class="input-feild" formControlName="password" type="text" placeholder="Password">
+          <span class="material-symbols-rounded" style="font-size: 22px;" >visibility</span>
+        </div>
+        
+        <!-- Confirm Password Input with Icon -->
+        <div class="input-group">
+            <input class="input-feild" formControlName="confirmpassword" type="text" placeholder="confim password">
+            <span class="material-symbols-rounded" style="font-size: 22px;" >key</span>
+        </div>
+        
+        <!-- OTP Input (Conditional Rendering) -->
+        <div class="input-group" *ngIf="isVerified">
+          <input *ngIf="isVerified"  class="input-feild" formControlName="otp" type="text" placeholder="otp">
+          <span class="material-symbols-rounded" style="font-size: 22px;" >key</span> 
+        </div>
+      </div>
+      
+    <div class="button-container">
+        <div *ngIf="!isLoading" (click)=" signUp.valid ? isVerified=true : isVerified=false" >login</div>
+        <div *ngIf="isLoading" class="loader"></div>
+    </div>
+</div> 

@@ -1,0 +1,34 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between each input group */
+  }
+  
+  .input-group {
+    margin: 0 0 20px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.material-symbols-rounded{
+    position: absolute;
+    right: 20px;
+    color: #888888;
+}
