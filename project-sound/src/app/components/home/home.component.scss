@@ -1,9 +1,25 @@
 .main-container {
     padding: 60px;
+    font-family: 'Inria Serif', sans-serif
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+}
+
+.show-all-text {
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #000000A8;
+
 }
 
 .shows-image-wrapper {
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .shows {
@@ -12,14 +28,76 @@
 
 
 .shows-image-container {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.episodes-image-container {
     padding: 10px;
     background-color: #F3F5F6;
     border-radius: 16px;
+    width: min-content;
     overflow: hidden;
+    position: relative;
+}
+
+.episodes-image-container:hover .episode-overlay {
+    // display: block;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+} 
+
+.episodes-image-container:hover > *:not(:first-child) {
+    filter: blur(1px);
+}
+
+.episode-overlay {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004D;
+    margin: -10px;
+    border-radius: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.episode-button {
+    width: 100%;
+    background-color: black !important;
+    color: white !important;
+    width: 90%;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    cursor: pointer
+}
+
+.btn {
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .image {
     object-fit: cover;
     border-radius: 16px;
+    width: 160px;
     object-position: center center;
+}
+
+.episodes-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+}
+
+.episodes-description {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000A8;
+    text-align: justify;
+    line-height: 14px;
 }
