@@ -15,7 +15,27 @@
     text-decoration: underline;
     cursor: pointer;
     color: #000000A8;
+}
 
+.show-name-text {
+    font-size: 14px; 
+    color: white; 
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-align: center;
+}
+
+.arrow-icon-container {
+    background: rgba(255, 255, 255, 0.8);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer
+}
+
+.arrow-icon {
+    color: black; 
+    font-size: 22px;
 }
 
 .shows-image-wrapper {
@@ -30,6 +50,7 @@
 .shows-image-container {
     border-radius: 16px;
     overflow: hidden;
+    position: relative
 }
 
 .episodes-image-container {
@@ -41,7 +62,7 @@
     position: relative;
 }
 
-.episodes-image-container:hover .episode-overlay {
+.episodes-image-container:hover .episode-overlay, .shows-image-container:hover .shows-overlay {
     // display: block;
     visibility: visible;
     opacity: 1;
@@ -52,7 +73,7 @@
     filter: blur(1px);
 }
 
-.episode-overlay {
+.overlay {
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -60,9 +81,20 @@
     width: 100%;
     height: 100%;
     background-color: #0000004D;
-    margin: -10px;
     border-radius: 16px;
     transition: all 0.3s ease-in-out;
+}
+
+.episode-overlay {
+    margin: -10px;
+}
+
+.lock-icon {
+    color: white;
+    position: absolute;
+    font-size: 22px;
+    top: 50%;
+    transform: translate(0%, -50%);
 }
 
 .episode-button {
@@ -85,6 +117,7 @@
     object-fit: cover;
     border-radius: 16px;
     width: 160px;
+    height: 100%;
     object-position: center center;
 }
 
