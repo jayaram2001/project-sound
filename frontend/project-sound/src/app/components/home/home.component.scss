@@ -1,6 +1,23 @@
 .main-container {
-    padding: 60px;
+    padding: 30px 60px 60px 60px;
     font-family: 'Inria Serif', sans-serif
+}
+
+.input-group {
+    margin: 0 0 20px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-feild {
+    padding: 0 50px 0 26px !important;
+}
+  
+.material-symbols-rounded{
+    position: absolute;
+    color: #888888;
 }
 
 .title {
@@ -39,7 +56,8 @@
 }
 
 .shows-image-wrapper {
-    overflow-x: auto;
+    overflow-x: hidden;
+    user-select: none;
 }
 
 .shows {
