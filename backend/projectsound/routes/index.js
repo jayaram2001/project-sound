@@ -4,6 +4,19 @@ var db = require('../dbconnection');
 const { MongoClient, ObjectId } = require('mongodb'); 
 const bcrypt = require('bcrypt'); // At the top of your file
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+
+async function connectToDatabase() {
+    try {
+      const connection = await db.connectToDatabase();
+      console.log("Connected successfully to server");
+      return connection.client.db('user');
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
+      throw error;
+    }
+}
 
 // Route to test database connection
 router.get('/', async function(req, res, next) {
@@ -28,7 +41,6 @@ router.get('/', async function(req, res, next) {
 router.post('/validate', async function(req, res, next) {
     const email = req.body.email; // Get email from request body
     const password = req.body.password; // Get password from request body
-    console.log(req.body);
     let client;
     let database;
 
@@ -55,7 +67,7 @@ router.post('/validate', async function(req, res, next) {
                 if (match) {
                     console.log('Matched');
                     // Create a token with user information, not the password
-                    const accessToken = jwt.sign({ id: userData._id }, process.env.ACCESS_TOKEN_SECRET); // Use user ID for token
+                    const accessToken = jwt.sign({ id: userData._id }, process.env.ACCESS_TOKEN); // Use user ID for token
                     return res.json({ accessToken: accessToken, user: userData.username, userId: userData._id });
                 } else {
                     return res.status(401).json({ error: 'Username or password is incorrect' });
@@ -74,5 +86,47 @@ router.post('/validate', async function(req, res, next) {
     }
 });
 
+
+router.post('/CreateUser', async function(req, res, next) {
+    const { email, password, username } = req.body;
+    console.log(req.body ,email , password , username)
+    if (!email || !password || !username) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    let database;
+    try {
+        database = await connectToDatabase();
+        const collection = database.collection('audio-cast');
+
+        // Check if user already exists
+        const existingUser = await collection.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
+
+        const hash = await bcrypt.hash(password, 10);
+        const userDetails = { username, email, password: hash };
+        const userData = await collection.findOne({ email: email });
+        if(userData){
+            res.status(304).json({message : 'email already exits'})
+        }else{
+            const result = await collection.insertOne(userDetails);
+            console.log('Document inserted successfully:', result);
+            res.status(201).json({ message: 'User created successfully', userId: result.insertedId });
+        }
+
+    } catch (error) {
+        console.error('Error creating user:', error);
+        if (error.name === 'MongoServerError' && error.code === 11000) {
+            // Duplicate key error (e.g., unique index violation)
+            return res.status(409).json({ error: 'User already exists' });
+        }
+        if (error.name === 'MongoNetworkError') {
+            return res.status(503).json({ error: 'Database connection error' });
+        }
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 module.exports = router;
