@@ -18,25 +18,6 @@ async function connectToDatabase() {
     }
 }
 
-// Route to test database connection
-router.get('/', async function(req, res, next) {
-    let client;
-    try {
-        // Connect to the database
-        const connection = await db.connectToDatabase();
-        client = connection.client; // Assuming the client is part of the returned object
-        console.log('Database connected');
-        res.send('Database connected');
-    } catch (error) {
-        console.error('Error connecting to the database:', error);
-        res.status(500).send('Database connection fails');
-    } finally {
-        if (client) {
-            await client.close(); // Close the client connection if it was initialized
-        }
-    }
-});
-
 // Route to fetch data from the audio-cast collection
 router.post('/validate', async function(req, res, next) {
     const email = req.body.email; // Get email from request body
@@ -57,22 +38,16 @@ router.post('/validate', async function(req, res, next) {
         console.log(userData ,'user');
         
         if (userData) {
-            // Compare the provided password with the hashed password in the database
-            bcrypt.compare(password, userData.password, (error, match) => {
-                if (error) {
-                    console.error('Error comparing passwords:', error);
-                    return res.status(500).send('Error comparing passwords');
-                }
+            const match = await bcrypt.compare(password, userData.password);
+            if (match) {
+                console.log('Matched');
+                // Create a token with user information, not the password
+                const accessToken = jwt.sign({ id: userData._id }, process.env.ACCESS_TOKEN); // Use user ID for token
+                return res.json({ accessToken: accessToken, user: userData.username, userId: userData._id });
+            } else {
+                return res.status(401).json({ error: 'Username or password is incorrect' });
+            }
 
-                if (match) {
-                    console.log('Matched');
-                    // Create a token with user information, not the password
-                    const accessToken = jwt.sign({ id: userData._id }, process.env.ACCESS_TOKEN); // Use user ID for token
-                    return res.json({ accessToken: accessToken, user: userData.username, userId: userData._id });
-                } else {
-                    return res.status(401).json({ error: 'Username or password is incorrect' });
-                }
-            });
         } else {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -128,5 +103,27 @@ router.post('/CreateUser', async function(req, res, next) {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+// Middleware to validate JWT token
+function authenticateToken(req, res, next) {
+    // Get token from headers
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+
+    if (!token) {
+        return res.status(401).json({ error: 'Access denied, no token provided' });
+    }
+
+    // Verify token
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+
+        // Attach the user to the request object
+        req.user = user;
+        next(); // Proceed to the next middleware or route handler
+    });
+}
 
 module.exports = router;
