@@ -14,7 +14,7 @@ export class HttpRoutingService {
   /**
    * The base URL for API requests, sourced from the environment configuration.
    */
-  private readonly APIUrl = 'http://localhost';
+  private readonly APIUrl = 'http://localhost:3000/';
   /**
    * Performs a GET request to the specified URL with optional query parameters.
    * @param {string} url - The endpoint URL (relative to the base API URL).
